@@ -13,6 +13,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { initiatePayment } from '@/services/paymentService';
+import { initiateMockPayment, shouldUseMockPayment, generateMockOrderId } from '@/services/mockPaymentService';
 import { calculateShipping } from '@/services/shippingService';
 import { Loader2 } from 'lucide-react';
 
@@ -140,38 +141,80 @@ const Checkout = () => {
     setLoading(true);
 
     try {
-      const paymentResponse = await initiatePayment({
-        amount: finalTotal,
-        currency: 'INR',
-        name: 'Clothing Co',
-        description: `Order for ${cartItems.length} items`,
-        order_id: `ORDER_${Date.now()}`,
-        prefill: {
-          name: formData.name,
-          email: formData.email,
-          contact: formData.phone,
-        },
-        handler: async (response) => {
-          try {
-            const order = await createOrderInDatabase(response);
-            await clearCart();
-            
-            toast({
-              title: 'Payment successful!',
-              description: 'Your order has been placed successfully.',
-            });
-            
-            navigate(`/order-success/${order.id}`);
-          } catch (error) {
-            console.error('Error creating order:', error);
-            toast({
-              title: 'Error',
-              description: 'Payment received but order creation failed. Please contact support.',
-              variant: 'destructive',
-            });
-          }
-        },
-      });
+      // Check if we should use mock payment
+      const useMockPayment = shouldUseMockPayment();
+      const orderId = useMockPayment ? generateMockOrderId() : `ORDER_${Date.now()}`;
+
+      // Show info toast for mock payment
+      if (useMockPayment) {
+        toast({
+          title: 'Mock Payment Mode',
+          description: 'Using test payment (no Razorpay keys configured)',
+        });
+      }
+
+      let paymentResponse;
+      
+      if (useMockPayment) {
+        // Use mock payment
+        paymentResponse = await initiateMockPayment({
+          amount: finalTotal,
+          currency: 'INR',
+          name: 'Clothing Co',
+          description: `Order for ${cartItems.length} items`,
+          order_id: orderId,
+          prefill: {
+            name: formData.name,
+            email: formData.email,
+            contact: formData.phone,
+          },
+        });
+        
+        // Create order after successful mock payment
+        const order = await createOrderInDatabase(paymentResponse);
+        await clearCart();
+        
+        toast({
+          title: 'Payment successful!',
+          description: 'Your order has been placed successfully (Test Mode).',
+        });
+        
+        navigate(`/order-success/${order.id}`);
+      } else {
+        // Use real Razorpay
+        await initiatePayment({
+          amount: finalTotal,
+          currency: 'INR',
+          name: 'Clothing Co',
+          description: `Order for ${cartItems.length} items`,
+          order_id: orderId,
+          prefill: {
+            name: formData.name,
+            email: formData.email,
+            contact: formData.phone,
+          },
+          handler: async (response) => {
+            try {
+              const order = await createOrderInDatabase(response);
+              await clearCart();
+              
+              toast({
+                title: 'Payment successful!',
+                description: 'Your order has been placed successfully.',
+              });
+              
+              navigate(`/order-success/${order.id}`);
+            } catch (error) {
+              console.error('Error creating order:', error);
+              toast({
+                title: 'Error',
+                description: 'Payment received but order creation failed. Please contact support.',
+                variant: 'destructive',
+              });
+            }
+          },
+        });
+      }
     } catch (error: any) {
       console.error('Payment error:', error);
       toast({
