@@ -99,7 +99,11 @@ const Cart = () => {
                       <span>${cartTotal.toFixed(2)}</span>
                     </div>
                   </div>
-                  <Button variant="luxury" className="w-full">
+                  <Button 
+                    variant="luxury" 
+                    className="w-full"
+                    onClick={() => navigate('/checkout')}
+                  >
                     Proceed to Checkout
                   </Button>
                 </div>
