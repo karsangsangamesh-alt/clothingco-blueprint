@@ -15,7 +15,7 @@ export default defineConfig({
     },
   },
   build: {
-    outDir: "dist-admin",
+    outDir: "dist",
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, "admin.html"),
