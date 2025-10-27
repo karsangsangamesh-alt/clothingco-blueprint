@@ -91,9 +91,9 @@ export const ProductCard = ({
           </div>
           <div className="flex flex-col items-end">
             <div className="flex items-center gap-1">
-              <span className="text-sm font-semibold text-gray-900">${product.price}</span>
+              <span className="text-sm font-semibold text-gray-900">₹{product.price}</span>
               {product.compare_at_price && product.compare_at_price > product.price && (
-                <span className="text-xs text-gray-500 line-through">${product.compare_at_price}</span>
+                <span className="text-xs text-gray-500 line-through">₹{product.compare_at_price}</span>
               )}
             </div>
             {discount && (

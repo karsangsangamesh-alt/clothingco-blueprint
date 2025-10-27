@@ -129,7 +129,7 @@ const BrandDetail = () => {
                       <h3 className="font-semibold mb-2 group-hover:text-accent transition-colors">
                         {product.name}
                       </h3>
-                      <p className="text-lg font-bold">${product.price}</p>
+                      <p className="text-lg font-bold">₹{product.price}</p>
                     </div>
                   </Link>
 

@@ -114,7 +114,7 @@ const FeaturedProducts = () => {
                     {product.name}
                   </h3>
                 </Link>
-                <p className="text-xl font-bold mb-4">${product.price.toLocaleString()}</p>
+                <p className="text-xl font-bold mb-4">₹{product.price.toLocaleString()}</p>
 
                 <div className="flex gap-2">
                   <Button

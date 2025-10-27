@@ -174,7 +174,7 @@ export default function AdminOrders() {
                     {new Date(order.created_at).toLocaleDateString()}
                   </TableCell>
                   <TableCell className="font-semibold">
-                    ${order.total_amount.toFixed(2)}
+                    ₹{order.total_amount.toFixed(2)}
                   </TableCell>
                   <TableCell>
                     <Badge

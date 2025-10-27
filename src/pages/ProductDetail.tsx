@@ -117,7 +117,7 @@ const ProductDetail = () => {
                     {product.rating} ({product.reviews} reviews)
                   </span>
                 </div>
-                <p className="text-3xl font-bold">${product.price}</p>
+                <p className="text-3xl font-bold">₹{product.price}</p>
               </div>
 
               <p className="text-muted-foreground leading-relaxed">{product.description}</p>

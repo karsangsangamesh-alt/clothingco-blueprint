@@ -126,7 +126,7 @@ const Products = () => {
                       size="sm"
                       onClick={() => setPriceRange(range)}
                     >
-                      {range === "All" ? "All" : `$${range}`}
+                      {range === "All" ? "All" : `₹${range}`}
                     </Button>
                   ))}
                 </div>
@@ -174,7 +174,7 @@ const Products = () => {
                       <h3 className="font-semibold mb-2 group-hover:text-accent transition-colors">
                         {product.name}
                       </h3>
-                      <p className="text-lg font-bold">${product.price}</p>
+                      <p className="text-lg font-bold">₹{product.price}</p>
                     </div>
                   </Link>
 

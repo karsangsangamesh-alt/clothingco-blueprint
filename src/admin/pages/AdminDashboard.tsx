@@ -93,7 +93,7 @@ export default function AdminDashboard() {
   const statCards = [
     {
       title: "Total Revenue",
-      value: `$${stats.totalRevenue.toFixed(2)}`,
+      value: `₹${stats.totalRevenue.toFixed(2)}`,
       icon: DollarSign,
       trend: "+12.5%",
       trendUp: true,
@@ -213,7 +213,7 @@ export default function AdminDashboard() {
                     </div>
                     <div className="text-right">
                       <p className="font-semibold text-gray-900">
-                        ${order.total_amount}
+                        ₹{order.total_amount}
                       </p>
                       <span
                         className={`text-xs px-2 py-1 rounded-full ${
@@ -261,7 +261,7 @@ export default function AdminDashboard() {
                         {product.name}
                       </p>
                       <p className="text-sm text-gray-500">
-                        ${product.price}
+                        ₹{product.price}
                       </p>
                     </div>
                   </div>

@@ -393,7 +393,7 @@ export default function AdminProducts() {
                   <TableCell className="font-medium">{product.name}</TableCell>
                   <TableCell>{product.brands?.name || "—"}</TableCell>
                   <TableCell>{product.categories?.name || "—"}</TableCell>
-                  <TableCell>${product.price}</TableCell>
+                  <TableCell>₹{product.price}</TableCell>
                   <TableCell>
                     <span
                       className={`${
